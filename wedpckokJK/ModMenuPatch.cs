@@ -3,8 +3,6 @@ using BepInEx.Configuration;
 using efijiPOIWikjek;
 using ModMenuPatch.HarmonyPatches;
 using Photon.Pun;
-using System.ComponentModel;
-using System.IO;
 using UnityEngine;
 
 namespace ModMenuPatch;
