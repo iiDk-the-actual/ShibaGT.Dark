@@ -54,11 +54,11 @@ internal class themenuitself : MonoBehaviour
                     themenuitself.reference.name = "spherething";
                     if (Plugin.right)
                     {
-                        themenuitself.reference.transform.parent = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform;
+                        themenuitself.reference.transform.parent = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true);
                     }
                     else
                     {
-                        themenuitself.reference.transform.parent = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform;
+                        themenuitself.reference.transform.parent = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false);
                     }
                     themenuitself.reference.transform.localPosition = new Vector3(0f, -0.1f, 0f);
                     themenuitself.reference.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
@@ -74,13 +74,13 @@ internal class themenuitself : MonoBehaviour
             }
             if (themenuitself.gripDown && themenuitself.menu != null && !Plugin.right) //left
             {
-                themenuitself.menu.transform.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
-                themenuitself.menu.transform.rotation = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation;
+                themenuitself.menu.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
+                themenuitself.menu.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation;
             }
             if (themenuitself.rightsecondarybutton2 && themenuitself.menu != null && Plugin.right) //right
             {
-                themenuitself.menu.transform.position = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
-                themenuitself.menu.transform.rotation = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation;
+                themenuitself.menu.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
+                themenuitself.menu.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation;
                 themenuitself.menu.transform.RotateAround(themenuitself.menu.transform.position, themenuitself.menu.transform.forward, 180f);
             }
             if (githubversion == currentversion)
@@ -495,7 +495,7 @@ internal class themenuitself : MonoBehaviour
                         {
                             if (!vrrig2.isOfflineVRRig && !vrrig2.isMyPlayer)
                             {
-                                vrrig2.ChangeMaterialLocal(vrrig2.currentMatIndex);
+                                vrrig2.ChangeMaterialLocal(vrrig2.setMatIndex);
                             }
                         }
                         widhcnkesdj = false;
@@ -994,7 +994,7 @@ internal class themenuitself : MonoBehaviour
                         UnityEngine.Object.Destroy(drawcube.GetComponent<SphereCollider>());
                         UnityEngine.Object.Destroy(drawcube.GetComponent<Rigidbody>());
                         drawcube.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-                        drawcube.transform.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
+                        drawcube.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
                         drawcube.transform.localScale = new Vector3(drawsize, drawsize, drawsize);
                     }
                 }
@@ -1290,7 +1290,7 @@ internal class themenuitself : MonoBehaviour
                     if (grip)
                     {
                         RaycastHit raycastHit4;
-                        Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit4);
+                        Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit4);
                         if (pointer == null)
                         {
                             pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -1396,7 +1396,7 @@ internal class themenuitself : MonoBehaviour
                         }
                         else
                         {
-                            hand1.transform.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
+                            hand1.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
                         }
                         if (!GameObject.Find("hand2"))
                         {
@@ -1407,7 +1407,7 @@ internal class themenuitself : MonoBehaviour
                         }
                         else
                         {
-                            hand2.transform.position = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
+                            hand2.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
                         }
                     }
                     else
@@ -1450,7 +1450,7 @@ internal class themenuitself : MonoBehaviour
                         }
                         else
                         {
-                            hand1.transform.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
+                            hand1.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
                         }
                         if (!GameObject.Find("hand2"))
                         {
@@ -1461,7 +1461,7 @@ internal class themenuitself : MonoBehaviour
                         }
                         else
                         {
-                            hand2.transform.position = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
+                            hand2.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
                         }
                     }
                 }
@@ -1474,7 +1474,7 @@ internal class themenuitself : MonoBehaviour
                         foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerListOthers)
                         {
                             VRRig rig = GorillaGameManager.instance.FindPlayerVRRig(p);
-                            rig.ChangeMaterialLocal(rig.currentMatIndex);
+                            rig.ChangeMaterialLocal(rig.setMatIndex);
                             UnityEngine.Object.Destroy(rig.mainSkin.gameObject.GetComponent<ColorChanger>());
                         }
                     }
@@ -1959,10 +1959,10 @@ internal class themenuitself : MonoBehaviour
                     if (!rweoijwufj324)
                     {
                         rweoijwufj324 = true;
-                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().maxWristSpeed = 99f;
+                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().maxLinSpeed = 99f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().maxLinSpeed = 99f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().linSpeedMultiplier = 99f;
-                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().maxWristSpeed = 99f;
+                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().maxLinSpeed = 99f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().maxLinSpeed = 99f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().linSpeedMultiplier = 99f;
                     }
@@ -1972,10 +1972,10 @@ internal class themenuitself : MonoBehaviour
                     if (rweoijwufj324 == true)
                     {
                         rweoijwufj324 = false;
-                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().maxWristSpeed = 4f;
+                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().maxLinSpeed = 4f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().maxLinSpeed = 12f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R/palm.01.R/TransferrableItemRightHand/SnowballRightAnchor").transform.Find("LMACF.").GetComponent<SnowballThrowable>().linSpeedMultiplier = 1f;
-                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().maxWristSpeed = 4f;
+                        GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().maxLinSpeed = 4f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().maxLinSpeed = 12f;
                         GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L/palm.01.L/TransferrableItemLeftHand/SnowballLeftAnchor").transform.Find("LMACE.").GetComponent<SnowballThrowable>().linSpeedMultiplier = 1f;
                     }
@@ -1996,7 +1996,7 @@ internal class themenuitself : MonoBehaviour
                 }
                 if (buttonsActive[117] == true)
                 {
-                    GameObject.Find("Floating Bug Holdable").transform.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.transform.position;
+                    GameObject.Find("Floating Bug Holdable").transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).transform.position;
                 }
                 if (buttonsActive[118] == true)
                 {
@@ -2309,7 +2309,7 @@ internal class themenuitself : MonoBehaviour
                 }
                 if (buttonsActive[145] == true)
                 {
-                    GameObject.Find("Cave Bat Holdable").transform.position = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.transform.position;
+                    GameObject.Find("Cave Bat Holdable").transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).transform.position;
                 }
                 if (buttonsActive[146] == true)
                 {
@@ -3197,7 +3197,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit);
+            Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit);
             if (themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -3264,7 +3264,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -3297,7 +3297,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -3325,7 +3325,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -4417,8 +4417,6 @@ internal class themenuitself : MonoBehaviour
 
     public static float linSpeedMultiplier = 1f;
 
-    public static float maxWristSpeed = 4f;
-
     private static float ropedelay = 0f;
 
     private static float smth = 0f;
@@ -4603,7 +4601,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -4631,7 +4629,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -4660,7 +4658,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -4685,7 +4683,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -4783,7 +4781,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -4821,7 +4819,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -4874,7 +4872,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -4917,7 +4915,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -4945,7 +4943,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -4973,7 +4971,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -5007,7 +5005,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -5034,7 +5032,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -5068,7 +5066,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && themenuitself.pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && themenuitself.pointer == null)
             {
                 themenuitself.pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(themenuitself.pointer.GetComponent<Rigidbody>());
@@ -5106,7 +5104,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -5135,7 +5133,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -5215,7 +5213,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -5249,7 +5247,7 @@ internal class themenuitself : MonoBehaviour
         if (grip)
         {
             RaycastHit raycastHit;
-            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit) && pointer == null)
+            if (Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit) && pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 UnityEngine.Object.Destroy(pointer.GetComponent<Rigidbody>());
@@ -5290,7 +5288,7 @@ internal class themenuitself : MonoBehaviour
         robux.GetComponent<Rigidbody>().isKinematic = false;
         robux.GetComponent<Rigidbody>().detectCollisions = true;
         robux.transform.localScale = new Vector3(0.4f, 0.2f, 0.4f);
-        robux.transform.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
+        robux.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
     }
 
     public static void RpcParticleSpam(Vector3 Position, Color color)
@@ -5351,12 +5349,12 @@ internal class themenuitself : MonoBehaviour
                 jump_right_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_right_local.GetComponent<Renderer>().enabled = false;
                 jump_right_local.transform.localScale = scale;
-                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
-                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation;
+                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
+                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation;
                 object[] eventContent = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation
                 };
                 once_right = true;
                 once_right_false = false;
@@ -5376,12 +5374,12 @@ internal class themenuitself : MonoBehaviour
                 jump_left_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_left_local.GetComponent<Renderer>().enabled = false;
                 jump_left_local.transform.localScale = scale;
-                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
-                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation;
+                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
+                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation;
                 object[] eventContent2 = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation
                 };
                 once_left = true;
                 once_left_false = false;
@@ -5429,12 +5427,12 @@ internal class themenuitself : MonoBehaviour
                 jump_right_local = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 jump_right_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 jump_right_local.transform.localScale = scale;
-                jump_right_local.transform.position = new Vector3(0f, -0.0075f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
-                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation;
+                jump_right_local.transform.position = new Vector3(0f, -0.0075f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
+                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation;
                 object[] eventContent = new object[2]
                 {
-                    new Vector3(0f, -0.0075f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation
+                    new Vector3(0f, -0.0075f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation
                 };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions
                 {
@@ -5469,12 +5467,12 @@ internal class themenuitself : MonoBehaviour
                 jump_left_local = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 jump_left_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 jump_left_local.transform.localScale = scale;
-                jump_left_local.transform.position = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
-                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation;
+                jump_left_local.transform.position = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
+                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation;
                 object[] eventContent2 = new object[2]
                 {
-                    GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation
                 };
                 RaiseEventOptions raiseEventOptions3 = new RaiseEventOptions
                 {
@@ -5549,12 +5547,12 @@ internal class themenuitself : MonoBehaviour
                 jump_right_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_right_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 jump_right_local.transform.localScale = scale;
-                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
-                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation;
+                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
+                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation;
                 object[] eventContent = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation
                 };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions
                 {
@@ -5589,12 +5587,12 @@ internal class themenuitself : MonoBehaviour
                 jump_left_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_left_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 jump_left_local.transform.localScale = scale;
-                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
-                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation;
+                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
+                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation;
                 object[] eventContent2 = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation
                 };
                 RaiseEventOptions raiseEventOptions3 = new RaiseEventOptions
                 {
@@ -5690,12 +5688,12 @@ internal class themenuitself : MonoBehaviour
                 jump_right_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_right_local.GetComponent<Renderer>().material.color = platcolor;
                 jump_right_local.transform.localScale = scale;
-                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
-                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation;
+                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
+                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation;
                 object[] eventContent = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation
                 };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions
                 {
@@ -5725,12 +5723,12 @@ internal class themenuitself : MonoBehaviour
                 jump_left_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_left_local.GetComponent<Renderer>().material.SetColor("_Color", platcolor);
                 jump_left_local.transform.localScale = scale;
-                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
-                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation;
+                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
+                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation;
                 object[] eventContent2 = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation
                 };
                 RaiseEventOptions raiseEventOptions3 = new RaiseEventOptions
                 {
@@ -5778,7 +5776,7 @@ internal class themenuitself : MonoBehaviour
             GameObject gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
             gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
             gameObject.transform.localScale = new Vector3(0.2830557f, 0.01652479f, 0.2830557f);
-            gameObject.transform.position = new Vector3(0f, -0.00825f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
+            gameObject.transform.position = new Vector3(0f, -0.00825f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
             RightToggleBool = false;
             RightToggle = gameObject;
         }
@@ -5792,7 +5790,7 @@ internal class themenuitself : MonoBehaviour
             GameObject gameObject2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
             gameObject2.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
             gameObject2.transform.localScale = new Vector3(0.2830557f, 0.01652479f, 0.2830557f);
-            gameObject2.transform.position = new Vector3(0f, -0.00825f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
+            gameObject2.transform.position = new Vector3(0f, -0.00825f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
             LeftToggleBool = false;
             LeftToggle = gameObject2;
         }
@@ -5822,7 +5820,7 @@ internal class themenuitself : MonoBehaviour
             return;
         }
         RaycastHit raycastHit;
-        Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out raycastHit);
+        Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out raycastHit);
         if (pointer == null)
         {
             pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -5874,7 +5872,7 @@ internal class themenuitself : MonoBehaviour
 		bool value2 = ControllerInputPoller.instance.rightControllerGripFloat == 1f;
 		if (value2)
 		{
-			Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out var hitInfo);
+			Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out var hitInfo);
 			if (pointer == null)
 			{
 				pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -5919,7 +5917,7 @@ internal class themenuitself : MonoBehaviour
         bool value2 = ControllerInputPoller.instance.rightControllerGripFloat == 1f;
         if (value2)
         {
-            Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out var hitInfo);
+            Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out var hitInfo);
             if (pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -5970,7 +5968,7 @@ internal class themenuitself : MonoBehaviour
         bool value2 = ControllerInputPoller.instance.rightControllerGripFloat == 1f;
         if (value2)
         {
-            Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position - GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, -GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.up, out var hitInfo);
+            Physics.Raycast(GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position - GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, -GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).up, out var hitInfo);
             if (pointer == null)
             {
                 pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -6097,12 +6095,12 @@ internal class themenuitself : MonoBehaviour
                 jump_right_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_right_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 jump_right_local.transform.localScale = scale;
-                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position;
-                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation;
+                jump_right_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position;
+                jump_right_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation;
                 object[] eventContent = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.rightControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(false).rotation
                 };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions
                 {
@@ -6137,12 +6135,12 @@ internal class themenuitself : MonoBehaviour
                 jump_left_local = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 jump_left_local.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 jump_left_local.transform.localScale = scale;
-                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position;
-                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation;
+                jump_left_local.transform.position = new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position;
+                jump_left_local.transform.rotation = GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation;
                 object[] eventContent2 = new object[2]
                 {
-                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.position,
-                    GorillaLocomotion.GTPlayer.Instance.leftControllerTransform.rotation
+                    new Vector3(0f, -0.0100f, 0f) + GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).position,
+                    GorillaLocomotion.GTPlayer.Instance.GetControllerTransform(true).rotation
                 };
                 RaiseEventOptions raiseEventOptions3 = new RaiseEventOptions
                 {
